@@ -161,7 +161,7 @@
                 primes.push({
                     number: i,
                     isPrime: isPrime(i),
-                    time: 0 // Placeholder for time in milliseconds
+                    time: 0 
                 });
             }
             return primes;
@@ -187,7 +187,7 @@
             const table2c = document.getElementById('table2c').querySelector('tbody');
             
             primes.forEach(prime => {
-                prime.time = totalTime; // Assign the same time for all primes
+                prime.time = totalTime;
                 const row2b = `
                     <tr>
                         <td>${prime.number}</td>
