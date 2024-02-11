@@ -1,154 +1,215 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prime Number Finder</title>
     <style>
-      body {
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background-color: #726cf8;
-        background-image: linear-gradient(315deg, #726cf8 0%, #e975a8 74%);
-        margin: 0;
-        padding: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-      }
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #726cf8;
+            background-image: linear-gradient(315deg, #726cf8 0%, #e975a8 74%);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
 
-      .container {
-        background-color: #861657;
-        background-image: linear-gradient(315deg, #861657 0%, #aa4465 74%);
+        .container {
+            background-color: #861657;
+            background-image: linear-gradient(315deg, #861657 0%, #aa4465 74%);
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 400px;
+        }
 
-        border-radius: 10px;
-        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
-        padding: 30px;
-        width: 400px;
-      }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
 
-      h1 {
-        text-align: center;
-        color: #333;
-        margin-bottom: 30px;
-      }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #feffff;
+        }
 
-      label {
-        display: block;
-        margin-bottom: 10px;
-        color: #666;
-      }
+        input[type="number"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
 
-      input[type="number"] {
-        width: calc(100% - 20px);
-        padding: 10px;
-        margin-bottom: 20px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        box-sizing: border-box;
-      }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
 
-      button {
-        width: 100%;
-        padding: 12px;
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-      }
+        button:hover {
+            background-color: #0056b3;
+        }
 
-      button:hover {
-        background-color: #0056b3;
-      }
+        #result {
+            margin-top: 20px;
+        }
 
-      #result {
-        margin-top: 20px;
-      }
+        .time-info {
+            margin-top: 10px;
+            color: #666;
+            font-size: 0.9rem;
+        }
 
-      .prime-list {
-        margin-top: 10px;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-      }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
 
-      .prime-list h2 {
-        color: #333;
-        margin-top: 0;
-      }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
 
-      .prime-list p {
-        margin: 5px 0;
-      }
+        th {
+            background-color: #007bff;
+            color: #fff;
+        }
 
-      .time-info {
-        margin-top: 10px;
-        color: #666;
-        font-size: 0.9rem;
-      }
-      .label{
-        color: #feffff;
-      }
+        td {
+            background-color: #f5f5f5;
+        }
+
+        .hidden {
+            display: none;
+        }
     </style>
-  </head>
-  <body>
+</head>
+<body>
     <div class="container">
-      <h1>Prime Number Finder</h1>
-      <label class="label" for="start">Start Range:</label>
-      <input type="number" id="start" name="start" />
-      <label class="label" for="end">End Range:</label>
-      <input type="number" id="end" name="end" />
-      <button onclick="findPrimes()">Find Primes</button>
-      <div id="result"></div>
+        <h1>Prime Number Finder</h1>
+        <label for="start">Start Range:</label>
+        <input type="number" id="start" name="start" />
+        <label for="end">End Range:</label>
+        <input type="number" id="end" name="end" />
+        <button onclick="findPrimes()">Find Primes</button>
+        <div id="result"></div>
+    </div>
+
+    <div id="popup" class="hidden">
+        <div id="tab1">
+            <h2>2b Table</h2>
+            <table id="table2b">
+                <thead>
+                    <tr>
+                        <th>Number</th>
+                        <th>Result (Prime/Normal)</th>
+                        <th>Time in ms</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div id="tab2" class="hidden">
+            <h2>2c Table</h2>
+            <table id="table2c">
+                <thead>
+                    <tr>
+                        <th>Number</th>
+                        <th>Time in ms</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
     </div>
 
     <script>
-      function isPrime(num) {
-        if (num <= 1) return false;
-        if (num <= 3) return true;
-        if (num % 2 === 0 || num % 3 === 0) return false;
-        let i = 5;
-        while (i * i <= num) {
-          if (num % i === 0 || num % (i + 2) === 0) return false;
-          i += 6;
+        function isPrime(num) {
+            if (num <= 1) return false;
+            if (num <= 3) return true;
+            if (num % 2 === 0 || num % 3 === 0) return false;
+            let i = 5;
+            while (i * i <= num) {
+                if (num % i === 0 || num % (i + 2) === 0) return false;
+                i += 6;
+            }
+            return true;
         }
-        return true;
-      }
 
-      function getPrimesInRange(start, end) {
-        const primes = [];
-        for (let i = start; i <= end; i++) {
-          if (isPrime(i)) {
-            primes.push(i);
-          }
+        function resetTables() {
+            document.getElementById('table2b').querySelector('tbody').innerHTML = '';
+            document.getElementById('table2c').querySelector('tbody').innerHTML = '';
         }
-        return primes;
-      }
 
-      function findPrimes() {
-        const start = parseInt(document.getElementById("start").value);
-        const end = parseInt(document.getElementById("end").value);
-        const startTime = performance.now();
-        const primes = getPrimesInRange(start, end);
-        const endTime = performance.now();
-        const totalTime = endTime - startTime;
-        const resultDiv = document.getElementById("result");
-        resultDiv.innerHTML = `
-                <div class="prime-list">
-                    <h2>Prime Numbers Found:</h2>
-                    <p>${
-                      primes.length > 0
-                        ? primes.join(", ")
-                        : "No prime numbers found in the given range."
-                    }</p>
-                </div>
+        function getPrimesInRange(start, end) {
+            const primes = [];
+            for (let i = start; i <= end; i++) {
+                primes.push({
+                    number: i,
+                    isPrime: isPrime(i),
+                    time: 0 // Placeholder for time in milliseconds
+                });
+            }
+            return primes;
+        }
+
+        function findPrimes() {
+            resetTables();
+            
+            const start = parseInt(document.getElementById("start").value);
+            const end = parseInt(document.getElementById("end").value);
+            const startTime = performance.now();
+            const primes = getPrimesInRange(start, end);
+            const endTime = performance.now();
+            const totalTime = endTime - startTime;
+            const resultDiv = document.getElementById("result");
+            resultDiv.innerHTML = `
                 <div class="time-info">Total Time taken: ${totalTime.toFixed(
                   2
                 )} milliseconds</div>
             `;
-      }
+            
+            const table2b = document.getElementById('table2b').querySelector('tbody');
+            const table2c = document.getElementById('table2c').querySelector('tbody');
+            
+            primes.forEach(prime => {
+                prime.time = totalTime; // Assign the same time for all primes
+                const row2b = `
+                    <tr>
+                        <td>${prime.number}</td>
+                        <td>${prime.isPrime ? 'Prime' : 'Normal'}</td>
+                        <td>${prime.time.toFixed(2)}</td>
+                    </tr>
+                `;
+                table2b.insertAdjacentHTML('beforeend', row2b);
+                
+                if (prime.isPrime) {
+                    const row2c = `
+                        <tr>
+                            <td>${prime.number}</td>
+                            <td>${prime.time.toFixed(2)}</td>
+                        </tr>
+                    `;
+                    table2c.insertAdjacentHTML('beforeend', row2c);
+                }
+            });
+
+            document.getElementById('popup').classList.remove('hidden');
+        }
     </script>
-  </body>
+</body>
 </html>
